@@ -1,0 +1,4 @@
+To separate each responsibility, we can use the Facade pattern.
+The facade will mainly be used to simplify and map the response of the external API.
+If we had a ddbb, we the facade would be used to access the repository and map the response
+We abstract the complexity of the external API and provide a simple interface to the client (our own service).

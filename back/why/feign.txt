@@ -1,0 +1,2 @@
+Using feign clients because its easier to use than Spring RestTemplate. More readable and maintainable code.
+Its just really simple, and we don't have any complicated authentication that requires configuration.

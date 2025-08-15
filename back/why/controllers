@@ -1,0 +1,4 @@
+Using OpenAPI to document everything. Maybe not needed if you are not exposing your API to third parties, but it is a good practice.
+
+As less code as possible. Keeping the controllers simple. They are not suposed to deal with business logic,
+but only with the request and response.
