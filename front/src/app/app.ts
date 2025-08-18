@@ -27,16 +27,12 @@ import {PlanetService} from './features/planets/services/planet-service';
 })
 export class App {
 
-  // ViewChild para acceder al componente DataTable
   dataTable = viewChild<DataTableComponent<any>>('dataTable');
 
-  // Signal para el topic seleccionado
   selectedTopic = signal<EntityType>('People');
 
-  // Signal para las columnas actuales
   currentColumns = signal<DataTableColumnInterface[]>(tableConfigs['People'].columns);
 
-  // Lista de topics para el selector - convertir a array con labels
   topics = Object.keys(tableConfigs).map(key => ({
     label: key,
     value: key as EntityType
@@ -46,14 +42,11 @@ export class App {
     private peopleService: PeopleService,
     private planetService: PlanetService
   ) {
-    // Effect para actualizar columnas cuando cambia el topic
     effect(() => {
       const topic = this.selectedTopic();
       this.currentColumns.set(tableConfigs[topic].columns);
       console.log('Topic changed to:', topic); // Debug
 
-      // Forzar recarga de datos cuando cambia el topic
-      // Usamos setTimeout para asegurar que el ViewChild esté disponible
       setTimeout(() => {
         const dataTableRef = this.dataTable();
         if (dataTableRef) {
@@ -64,13 +57,11 @@ export class App {
     });
   }
 
-  // ✅ Corregido: usar EntityType en lugar de literal types
   onTopicChange(topic: EntityType) {
     console.log('onTopicChange called with:', topic); // Debug
     this.selectedTopic.set(topic);
   }
 
-  // Función que devuelve la función de query apropiada
   getQueryFn(topic: EntityType) {
     console.log('getQueryFn called with topic:', topic); // Debug
 

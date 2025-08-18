@@ -45,7 +45,6 @@ import {InputText} from 'primeng/inputtext';
 export class DataTableComponent<T> implements OnInit{
   private destroyRef = inject(DestroyRef);
 
-  // Inputs (Angular v20)
   config = input.required<DataTableConfigInterface>();
   columns = input.required<DataTableColumnInterface[]>();
   queryFn = input.required<(params: QueryParams) => Observable<Page<T>>>();
@@ -93,15 +92,11 @@ export class DataTableComponent<T> implements OnInit{
    * Se llama desde el componente padre cuando cambia el topic
    */
   resetAndReload(): void {
-    console.log('resetAndReload called'); // Debug
-    // Resetear estado
+    console.log('resetAndReload called');
     this.first.set(0);
     this.searchTerm.set('');
-    // Limpiar datos actuales
     this.data.set([]);
-    // Recargar datos
     this.fetchData();
-    // También limpiar el término de búsqueda en el subject
     this.searchSubject.next('');
   }
 
@@ -135,7 +130,7 @@ export class DataTableComponent<T> implements OnInit{
   }
 
   private handleDataResponse(response: Page<T>): void {
-    console.log('Data received:', response); // Debug
+    console.log('Data received:', response);
     this.data.set(response.content);
     this.totalRecords.set(response.totalElements);
     this.loading.set(false);
@@ -144,7 +139,7 @@ export class DataTableComponent<T> implements OnInit{
 
 
   private fetchData(): void {
-    console.log('Fetching data...'); // Debug
+    console.log('Fetching data...');
     this.loading.set(true);
 
     this.queryFn()({
