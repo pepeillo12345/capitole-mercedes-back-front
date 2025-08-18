@@ -1,4 +1,4 @@
-import {Component, effect, signal} from '@angular/core';
+import {Component, effect, signal, viewChild} from '@angular/core';
 import {Select} from 'primeng/select';
 import {TableModule} from 'primeng/table';
 import {FormsModule} from '@angular/forms';
@@ -27,6 +27,9 @@ import {PlanetService} from './features/planets/services/planet-service';
 })
 export class App {
 
+  // ViewChild para acceder al componente DataTable
+  dataTable = viewChild<DataTableComponent<any>>('dataTable');
+
   // Signal para el topic seleccionado
   selectedTopic = signal<EntityType>('People');
 
@@ -48,6 +51,16 @@ export class App {
       const topic = this.selectedTopic();
       this.currentColumns.set(tableConfigs[topic].columns);
       console.log('Topic changed to:', topic); // Debug
+
+      // Forzar recarga de datos cuando cambia el topic
+      // Usamos setTimeout para asegurar que el ViewChild esté disponible
+      setTimeout(() => {
+        const dataTableRef = this.dataTable();
+        if (dataTableRef) {
+          // Resetear estado y recargar datos
+          dataTableRef.resetAndReload();
+        }
+      });
     });
   }
 

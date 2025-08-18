@@ -88,6 +88,23 @@ export class DataTableComponent<T> implements OnInit{
     this.fetchData();
   }
 
+  /**
+   * Método público para resetear estado y recargar datos
+   * Se llama desde el componente padre cuando cambia el topic
+   */
+  resetAndReload(): void {
+    console.log('resetAndReload called'); // Debug
+    // Resetear estado
+    this.first.set(0);
+    this.searchTerm.set('');
+    // Limpiar datos actuales
+    this.data.set([]);
+    // Recargar datos
+    this.fetchData();
+    // También limpiar el término de búsqueda en el subject
+    this.searchSubject.next('');
+  }
+
   private setupSearch(): void {
     this.searchSubject
       .pipe(

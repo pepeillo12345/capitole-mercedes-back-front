@@ -1,3 +1,4 @@
+
 <div class="m-12">
   <app-page-header>
     <p-select
@@ -12,6 +13,7 @@
   </app-page-header>
 
   <app-data-table
+    #dataTable
     [config]="{ entityName: selectedTopic() }"
     [columns]="currentColumns()"
     [queryFn]="getQueryFn(selectedTopic())">
