@@ -1,5 +1,5 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
-import { SortOption } from "../models/sort-option.interface";
+import {HttpClient, HttpParams} from "@angular/common/http";
+import {SortOption} from "../models/sort-option.interface";
 import {Observable} from 'rxjs';
 import {Page} from '../models/page.interface';
 

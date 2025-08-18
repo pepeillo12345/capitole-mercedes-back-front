@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {BaseApiService} from '../../../shared/service/base-api-service';
 import {PeopleInterface} from '../models/people.interface';
 import {PeopleQueryBuilder} from './people-query-builder';

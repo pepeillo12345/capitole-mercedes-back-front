@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { BaseApiService } from '../../../shared/service/base-api-service';
+import {Injectable} from '@angular/core';
+import {BaseApiService} from '../../../shared/service/base-api-service';
 import {PlanetInterface} from '../models/planet.interface';
 import {PlanetQueryBuilder} from './planet-query-builder';
 

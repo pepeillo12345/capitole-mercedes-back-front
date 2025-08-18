@@ -1,6 +1,5 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {Avatar} from "primeng/avatar";
-import {Select} from "primeng/select";
 
 @Component({
   selector: 'app-page-header',

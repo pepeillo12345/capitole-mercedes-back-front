@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { DataTable } from './data-table.component';
+import {DataTable} from './data-table.component';
 
 describe('DataTable', () => {
   let component: DataTable;

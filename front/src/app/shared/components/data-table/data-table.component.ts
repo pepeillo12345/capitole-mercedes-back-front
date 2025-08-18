@@ -1,21 +1,21 @@
 import {
-  Component, computed, contentChild,
-  ContentChild,
-  DestroyRef, effect,
-  inject, input,
-  OnDestroy,
-  OnInit, output,
-  Output,
+  Component,
+  computed,
+  contentChild,
+  DestroyRef,
+  effect,
+  inject,
+  input,
+  OnInit,
+  output,
   signal,
   TemplateRef
 } from '@angular/core';
-import {NgIf, NgTemplateOutlet} from '@angular/common';
-import {Input} from 'postcss';
+import {NgTemplateOutlet} from '@angular/common';
 import {DataTableConfigInterface} from '../../models/data-table-config.interface';
 import {DataTableColumnInterface} from '../../models/data-table-column.interface';
 import {debounceTime, distinctUntilChanged, Observable, startWith, Subject, switchMap} from 'rxjs';
 import {Page} from '../../models/page.interface';
-import EventEmitter = require('node:events');
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {QueryParams} from '../../models/query-params.interface';
 import {FloatLabel} from 'primeng/floatlabel';
@@ -42,7 +42,7 @@ import {InputText} from 'primeng/inputtext';
   templateUrl: './data-table.component.html',
   styleUrl: './data-table.scss'
 })
-export class DataTableComponent<T> implements OnInit{
+export class DataTableComponent<T> implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   config = input.required<DataTableConfigInterface>();

@@ -1,12 +1,13 @@
-import { HttpClient } from "@angular/common/http";
-import { BaseQueryBuilder } from "../utils/base-query-builder";
+import {HttpClient} from "@angular/common/http";
+import {BaseQueryBuilder} from "../utils/base-query-builder";
 import {Observable} from 'rxjs';
 import {Page} from '../models/page.interface';
 import {Injectable} from '@angular/core';
+import {environment} from '../../../environments/environment';
 
 @Injectable()
 export abstract class BaseApiService<T, TBuilder extends BaseQueryBuilder<T>> {
-  protected readonly baseUrl = 'http://localhost:8080/api/v1';
+  protected readonly baseUrl = environment.apiUrl;
 
   constructor(protected http: HttpClient) {}
 

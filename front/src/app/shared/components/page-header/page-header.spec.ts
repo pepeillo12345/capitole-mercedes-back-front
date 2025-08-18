@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { PageHeader } from './page-header';
+import {PageHeader} from './page-header';
 
 describe('PageHeader', () => {
   let component: PageHeader;
