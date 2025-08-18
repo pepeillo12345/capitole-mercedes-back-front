@@ -1,0 +1,16 @@
+
+
+API sorted by name and created.
+Memory sorted for the rest of the fields.
+
+
+
+There is a conflict between the API and Memory sorting.
+Im using primeng and the API is sorted by name and created.
+Thats why there is an error in the console.
+
+
+
+To improve, but need more time:
+- i18n
+- skeletons on the components
