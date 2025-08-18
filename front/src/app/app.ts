@@ -11,6 +11,7 @@ import {Observable} from 'rxjs';
 import {Page} from './shared/models/page.interface';
 import {PeopleService} from './features/people/services/people-service';
 import {PlanetService} from './features/planets/services/planet-service';
+import {DatePipe} from '@angular/common';
 
 
 @Component({
@@ -21,6 +22,7 @@ import {PlanetService} from './features/planets/services/planet-service';
     PageHeader,
     DataTableComponent,
     Select,
+    DatePipe,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'

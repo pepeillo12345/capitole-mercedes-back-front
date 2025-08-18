@@ -17,7 +17,7 @@ export const tableConfigs: Record<EntityType, { columns: DataTableColumnInterfac
       { field: 'climate', header: 'Climate' },
       { field: 'terrain', header: 'Terrain' },
       { field: 'population', header: 'Population' },
-      { field: 'created', header: 'Created'}
+      { field: 'created', header: 'Created', pipe: 'date', pipeArgs: 'short' }
     ]
   }
 };

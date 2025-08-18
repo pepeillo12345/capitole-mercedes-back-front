@@ -20,7 +20,16 @@
     <ng-template #bodyTemplate let-row>
       <tr>
         @for (col of currentColumns(); track col.field) {
-          <td class="p-3">{{ row[col.field] }}</td>
+          <td class="p-3">
+            @switch (col.pipe) {
+              @case ('date') {
+                {{ row[col.field] | date:'short' }}
+              }
+              @default {
+                {{ row[col.field] }}
+              }
+            }
+          </td>
         }
       </tr>
     </ng-template>
