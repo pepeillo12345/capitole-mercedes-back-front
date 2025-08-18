@@ -18,7 +18,7 @@ export abstract class BaseQueryBuilder<T> {
    * Añade un término de búsqueda
    */
   search(term: string): this {
-    this.searchTerm = term?.trim();
+    this.searchTerm = term?.trim() || undefined;
     return this;
   }
 
@@ -26,7 +26,7 @@ export abstract class BaseQueryBuilder<T> {
    * Añade un criterio de ordenamiento
    */
   sort(field: string, direction: 'asc' | 'desc' = 'asc'): this {
-    this.sorts.push({ field, direction });
+    this.sorts = [{ field, direction }]; // Reemplazar en lugar de agregar
     return this;
   }
 
@@ -96,7 +96,8 @@ export abstract class BaseQueryBuilder<T> {
   private buildParams(): HttpParams {
     let params = new HttpParams();
 
-    if (this.searchTerm) {
+    // Solo agregar search si tiene valor
+    if (this.searchTerm && this.searchTerm.length > 0) {
       params = params.set('search', this.searchTerm);
     }
 
@@ -114,6 +115,7 @@ export abstract class BaseQueryBuilder<T> {
       params = params.set('size', this.pageSize.toString());
     }
 
+    console.log('Built params:', params.toString()); // Debug
     return params;
   }
 
@@ -122,6 +124,9 @@ export abstract class BaseQueryBuilder<T> {
    */
   execute(): Observable<Page<T>> {
     const params = this.buildParams();
+    const url = `${this.endpoint}${params.toString() ? '?' + params.toString() : ''}`;
+    console.log('Executing request to:', url); // Debug
+
     return this.http.get<Page<T>>(this.endpoint, { params });
   }
 

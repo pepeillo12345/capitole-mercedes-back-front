@@ -33,39 +33,51 @@ export class App {
   // Signal para las columnas actuales
   currentColumns = signal<DataTableColumnInterface[]>(tableConfigs['People'].columns);
 
-  // Lista de topics para el selector
-  topics: EntityType[] = Object.keys(tableConfigs) as EntityType[];
+  // Lista de topics para el selector - convertir a array con labels
+  topics = Object.keys(tableConfigs).map(key => ({
+    label: key,
+    value: key as EntityType
+  }));
 
   constructor(
     private peopleService: PeopleService,
     private planetService: PlanetService
   ) {
-    // Cada vez que cambia el topic, actualizamos columnas y queryFn
+    // Effect para actualizar columnas cuando cambia el topic
     effect(() => {
       const topic = this.selectedTopic();
       this.currentColumns.set(tableConfigs[topic].columns);
+      console.log('Topic changed to:', topic); // Debug
     });
   }
 
-  // Actualiza el topic y las columnas
-  onTopicChange(topic: 'People' | 'Planets') {
+  // ✅ Corregido: usar EntityType en lugar de literal types
+  onTopicChange(topic: EntityType) {
+    console.log('onTopicChange called with:', topic); // Debug
     this.selectedTopic.set(topic);
   }
 
-  // Aquí definimos la función que devuelve un Observable con los datos
+  // Función que devuelve la función de query apropiada
   getQueryFn(topic: EntityType) {
-    // Extrae el servicio del map
+    console.log('getQueryFn called with topic:', topic); // Debug
+
     const serviceMap = {
       People: this.peopleService,
       Planets: this.planetService
     };
+
     const service = serviceMap[topic];
+    if (!service) {
+      console.error('No service found for topic:', topic);
+      return () => new Observable<Page<any>>();
+    }
 
     return (params: QueryParams): Observable<Page<any>> => {
+      console.log('Query function called with params:', params); // Debug
       const {search, sortField, sortOrder, page, size} = params;
       return service
         .query()
-        .search(search)
+        .search(search || '')
         .sort(sortField, sortOrder)
         .page(page)
         .size(size)

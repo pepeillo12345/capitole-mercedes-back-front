@@ -4,6 +4,6 @@ import {PeopleInterface} from '../models/people.interface';
 
 export class PeopleQueryBuilder extends BaseQueryBuilder<PeopleInterface> {
   constructor(http: HttpClient, baseUrl: string) {
-    super(http, `${baseUrl}/planets`);
+    super(http, `${baseUrl}/people`);
   }
 }

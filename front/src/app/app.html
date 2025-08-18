@@ -3,7 +3,8 @@
     <p-select
       [options]="topics"
       placeholder="Select a topic"
-
+      optionLabel="label"
+      optionValue="value"
       [(ngModel)]="selectedTopic"
       (onChange)="onTopicChange($event.value)"
       class="w-full md:w-56 ml-auto"
@@ -15,12 +16,11 @@
     [columns]="currentColumns()"
     [queryFn]="getQueryFn(selectedTopic())">
     <ng-template #bodyTemplate let-row>
-      @for (col of currentColumns(); track col.field) {
-        {{ row[col.field] }}
-      }
+      <tr>
+        @for (col of currentColumns(); track col.field) {
+          <td class="p-3">{{ row[col.field] }}</td>
+        }
+      </tr>
     </ng-template>
   </app-data-table>
-
-
 </div>
-

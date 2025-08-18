@@ -70,8 +70,8 @@ export class DataTableComponent<T> implements OnInit{
   // Computed: página actual
   currentPage = computed(() => Math.floor(this.first() / this.rows()));
 
-  // Effect para inicializar config por defecto
   constructor() {
+    // Effect para inicializar config por defecto
     effect(() => {
       const cfg = this.config();
       if (cfg) {
@@ -80,6 +80,7 @@ export class DataTableComponent<T> implements OnInit{
         this.sortOrder.set(cfg.defaultSortOrder || 'asc');
       }
     });
+
   }
 
   ngOnInit(): void {
@@ -117,13 +118,16 @@ export class DataTableComponent<T> implements OnInit{
   }
 
   private handleDataResponse(response: Page<T>): void {
+    console.log('Data received:', response); // Debug
     this.data.set(response.content);
     this.totalRecords.set(response.totalElements);
     this.loading.set(false);
     this.dataLoaded.emit(response.content);
   }
 
+
   private fetchData(): void {
+    console.log('Fetching data...'); // Debug
     this.loading.set(true);
 
     this.queryFn()({
