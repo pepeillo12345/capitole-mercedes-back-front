@@ -1,0 +1,78 @@
+<div>
+  <div class="mt-5 mb-2">
+    <p-floatlabel variant="in">
+      <p-iconfield>
+        <p-inputicon class="pi pi-search" />
+        <input
+          pInputText
+          id="search_input"
+          autocomplete="off"
+          [ngModel]="searchTerm()"
+          (ngModelChange)="onSearchChange($event)"
+        />
+      </p-iconfield>
+      <label for="search_input">{{ config().searchPlaceholder || 'Search by name' }}</label>
+    </p-floatlabel>
+  </div>
+
+  <p-table
+    [value]="data()"
+    [loading]="loading()"
+    [tableStyle]="{ 'min-width': '50rem' }">
+
+    <!-- Header template -->
+    <ng-template #header>
+      <tr>
+        @for (column of columns(); track column.field) {
+          <th
+            [class.cursor-pointer]="column.sortable !== false"
+            [pSortableColumn]="column.sortable !== false ? column.field : undefined"
+            (click)="column.sortable !== false ? onSort(column.field) : undefined">
+            {{ column.header }}
+            @if (column.sortable !== false) {
+              <p-sortIcon [field]="column.field"></p-sortIcon>
+            }
+          </th>
+        }
+      </tr>
+    </ng-template>
+
+    <!-- Body template - usando content projection -->
+    <ng-template #body let-item let-ri="rowIndex">
+      <ng-container [ngTemplateOutlet]="bodyTemplate()" [ngTemplateOutletContext]="{
+            $implicit: item,
+            rowIndex: ri,
+            columns: columns
+          }"></ng-container>
+    </ng-template>
+
+    <!-- Empty message template -->
+    <ng-template #emptymessage>
+      <tr>
+        <td [attr.colspan]="columns().length" class="text-center p-4">
+          @if (!loading() && data().length === 0) {
+            <div class="flex flex-row items-center justify-center">
+              <i class="pi pi-info-circle text-4xl text-gray-400 mr-3"></i>
+              <p class="text-gray-600">
+                {{ searchTerm()
+                ? 'No ' + config().entityName + ' found matching "' + searchTerm() + '"'
+                : 'No ' + config().entityName + ' available'
+                }}
+              </p>
+            </div>
+          }
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-paginator
+    (onPageChange)="onPageChange($event)"
+    [first]="first()"
+    [rows]="rows()"
+    [totalRecords]="totalRecords()"
+    [rowsPerPageOptions]="config().pageSizeOptions || [15, 20, 50]"
+    [showCurrentPageReport]="true"
+    [currentPageReportTemplate]="getCurrentPageReportTemplate()">
+  </p-paginator>
+</div>

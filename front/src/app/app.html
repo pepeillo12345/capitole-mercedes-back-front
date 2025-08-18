@@ -1,4 +1,26 @@
-<p-button label="Check" />
-<h1 class="text-3xl font-bold underline">
-  Hello world!
-</h1>
+<div class="m-12">
+  <app-page-header>
+    <p-select
+      [options]="topics"
+      placeholder="Select a topic"
+
+      [(ngModel)]="selectedTopic"
+      (onChange)="onTopicChange($event.value)"
+      class="w-full md:w-56 ml-auto"
+    />
+  </app-page-header>
+
+  <app-data-table
+    [config]="{ entityName: selectedTopic() }"
+    [columns]="currentColumns()"
+    [queryFn]="getQueryFn(selectedTopic())">
+    <ng-template #bodyTemplate let-row>
+      @for (col of currentColumns(); track col.field) {
+        {{ row[col.field] }}
+      }
+    </ng-template>
+  </app-data-table>
+
+
+</div>
+
