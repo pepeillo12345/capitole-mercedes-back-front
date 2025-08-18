@@ -6,16 +6,15 @@ services:
     container_name: starwars-backend
     ports:
       - "8080:8080"
-    environment:
-      - SPRING_PROFILES_ACTIVE=docker
     networks:
       - starwars-network
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
       interval: 30s
       timeout: 10s
-      retries: 5
-      start_period: 60s
+      retries: 10
+      start_period: 120s
+    restart: unless-stopped
 
   frontend:
     build:
@@ -29,6 +28,7 @@ services:
         condition: service_healthy
     networks:
       - starwars-network
+    restart: unless-stopped
 
 networks:
   starwars-network:

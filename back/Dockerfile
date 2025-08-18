@@ -20,8 +20,8 @@ RUN ./mvnw dependency:go-offline -B
 # Copiar el código fuente
 COPY src ./src
 
-# Compilar la aplicación
-RUN ./mvnw clean package -DskipTests
+# Compilar la aplicación con el plugin de Spring Boot
+RUN ./mvnw clean package spring-boot:repackage -DskipTests
 
 # Exponer el puerto
 EXPOSE 8080
