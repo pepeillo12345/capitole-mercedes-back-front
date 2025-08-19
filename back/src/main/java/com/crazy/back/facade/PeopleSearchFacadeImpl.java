@@ -24,21 +24,22 @@ public class PeopleSearchFacadeImpl implements SearchFacade<PeopleDto> {
     private final PeopleMapper peopleMapper;
     private final GenericSortingFactory sortingFactory;
 
+
     public Page<PeopleDto> search(String search, Pageable pageable) {
-        // Obtenemos los datos sin sorting
+        //Get the data without sorting
         Page<SwPeopleResponse> swPeopleResponse = CompositePaginationHelper.fetchAndCompose(
                 10,
                 pageable,
                 swapiPage -> peopleFeignClient.getPeopleSearch(swapiPage, search)
         );
 
-        // Convertimos a DTO
+        //Convert to dto
         List<PeopleDto> peopleDtos = swPeopleResponse.getContent()
                 .stream()
                 .map(peopleMapper::toPeopleDto)
                 .collect(Collectors.toList());
 
-        // Aplicamos sorting si es necesario
+        //Apply sorting if needed
         if (pageable.getSort().isSorted()) {
             Comparator<PeopleDto> comparator = sortingFactory.createComparator(PeopleDto.class, pageable.getSort());
             peopleDtos.sort(comparator);

@@ -6,6 +6,9 @@ import lombok.Data;
 import java.time.OffsetDateTime;
 import java.util.List;
 
+/** * Represents a response from the Star Wars API for a person.
+ * This class maps the JSON response fields to Java fields.
+ */
 @Data
 public class SwPeopleResponse {
 

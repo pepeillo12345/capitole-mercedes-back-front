@@ -34,7 +34,7 @@ public class PlanetController {
     }
 
     @Operation(summary = "Retrieves a planet by ID from the Star Wars API")
-    @ApiResponse(responseCode = "200", description = "Persona recuperada correctamente")
+    @ApiResponse(responseCode = "200", description = "Planet retrieved successfully")
     @GetMapping("/planets/{id}")
     public ResponseEntity<PlanetDto> getPersonById(
             @Parameter(description = "ID of the planet to retrieve")

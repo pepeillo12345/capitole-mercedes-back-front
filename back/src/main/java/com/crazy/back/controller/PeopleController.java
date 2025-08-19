@@ -34,7 +34,7 @@ public class PeopleController {
     }
 
     @Operation(summary = "Retrieves a person by ID from the Star Wars API")
-    @ApiResponse(responseCode = "200", description = "Persona recuperada correctamente")
+    @ApiResponse(responseCode = "200", description = "Person retrieved successfully")
     @GetMapping("/people/{id}")
     public ResponseEntity<PeopleDto> getPersonById(
             @Parameter(description = "ID of the person to retrieve")

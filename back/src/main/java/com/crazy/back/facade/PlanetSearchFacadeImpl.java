@@ -25,20 +25,20 @@ public class PlanetSearchFacadeImpl implements SearchFacade<PlanetDto> {
     private final GenericSortingFactory sortingFactory;
 
     public Page<PlanetDto> search(String search, Pageable pageable) {
-        // Obtenemos los datos sin sorting
+        //Get data without sorting
         Page<SwPlanetResponse> swPlanetResponse = CompositePaginationHelper.fetchAndCompose(
                 10,
                 pageable,
                 swapiPage -> planetFeignClient.getPlanetSearch(swapiPage, search)
         );
 
-        // Convertimos a DTO
+        //Conver to DTO
         List<PlanetDto> planetDtos = swPlanetResponse.getContent()
                 .stream()
                 .map(planetMapper::toPlanetDto)
                 .collect(Collectors.toList());
 
-        // Aplicamos sorting si es necesario
+        //Apply sorting if needed
         if (pageable.getSort().isSorted()) {
             Comparator<PlanetDto> comparator = sortingFactory.createComparator(PlanetDto.class, pageable.getSort());
             planetDtos.sort(comparator);

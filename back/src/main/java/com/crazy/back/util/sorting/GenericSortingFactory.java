@@ -127,7 +127,6 @@ public class GenericSortingFactory {
     }
 
     private <T> Comparator<T> createCustomComparator(String comparatorClass) {
-        // Implementación para comparadores personalizados si es necesario
         throw new UnsupportedOperationException("Custom comparators not implemented yet");
     }
 }
