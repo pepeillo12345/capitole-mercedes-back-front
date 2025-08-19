@@ -2,6 +2,23 @@
 
 A full-stack application that allows you to explore the Star Wars universe using the SWAPI (Star Wars API). Built with Angular and Spring Boot, this application provides a beautiful interface to browse characters and planets from the Star Wars saga.
 
+### Running the Application
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd star-wars-explorer
+   ```
+
+2. **Start the application**
+   ```bash
+   docker-compose up --build
+   ```
+
+3. **Access the application**
+   - Frontend: http://localhost
+   - Backend API: http://localhost:8080
+
 ## ✨ Features
 
 - **Interactive Data Tables**: Browse people and planets with pagination, sorting, and search functionality
@@ -40,23 +57,6 @@ A full-stack application that allows you to explore the Star Wars universe using
 
 - Docker
 - Git
-
-### Running the Application
-
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd star-wars-explorer
-   ```
-
-2. **Start the application**
-   ```bash
-   docker-compose up --build
-   ```
-
-3. **Access the application**
-   - Frontend: http://localhost
-   - Backend API: http://localhost:8080
 
 ### Docker Compose Services
 
