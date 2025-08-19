@@ -130,9 +130,8 @@ export class DataTableComponent<T> implements OnInit {
   }
 
   private handleDataResponse(response: Page<T>): void {
-    console.log('Data received:', response);
     this.data.set(response.content);
-    this.totalRecords.set(response.totalElements);
+    this.totalRecords.set(response.page.totalElements); // ← Cambio aquí
     this.loading.set(false);
     this.dataLoaded.emit(response.content);
   }
@@ -161,6 +160,7 @@ export class DataTableComponent<T> implements OnInit {
   }
 
   onPageChange(event: any): void {
+    console.log('Ha cambiado la page')
     this.first.set(event.first);
     this.rows.set(event.rows);
     this.fetchData();
@@ -169,11 +169,6 @@ export class DataTableComponent<T> implements OnInit {
   onSearchChange(value: string): void {
     this.searchTerm.set(value);
     this.searchSubject.next(value);
-  }
-
-  clearSearch(): void {
-    this.searchTerm.set('');
-    this.searchSubject.next('');
   }
 
   onSort(field: string): void {

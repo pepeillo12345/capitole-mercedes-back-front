@@ -26,23 +26,10 @@ export abstract class BaseQueryBuilder<T> {
    * Añade un criterio de ordenamiento
    */
   sort(field: string, direction: 'asc' | 'desc' = 'asc'): this {
-    this.sorts = [{ field, direction }]; // Reemplazar en lugar de agregar
+    this.sorts = [{ field, direction }];
     return this;
   }
 
-  /**
-   * Añade ordenamiento por nombre
-   */
-  sortByName(direction: 'asc' | 'desc' = 'asc'): this {
-    return this.sort('name', direction);
-  }
-
-  /**
-   * Añade ordenamiento por fecha de creación
-   */
-  sortByCreated(direction: 'asc' | 'desc' = 'asc'): this {
-    return this.sort('created', direction);
-  }
 
   /**
    * Configura la paginación
@@ -63,24 +50,9 @@ export abstract class BaseQueryBuilder<T> {
     return this;
   }
 
-  /**
-   * Limpia todos los criterios de ordenamiento
-   */
-  clearSorts(): this {
-    this.sorts = [];
-    return this;
-  }
 
   /**
-   * Limpia la búsqueda
-   */
-  clearSearch(): this {
-    this.searchTerm = undefined;
-    return this;
-  }
-
-  /**
-   * Resetea todos los parámetros
+   * Resets all query parameters to their initial state
    */
   reset(): this {
     this.searchTerm = undefined;
@@ -91,12 +63,11 @@ export abstract class BaseQueryBuilder<T> {
   }
 
   /**
-   * Construye los HttpParams basado en la configuración actual
+   * Builds the HttpParams object based on the current state
    */
   private buildParams(): HttpParams {
     let params = new HttpParams();
 
-    // Solo agregar search si tiene valor
     if (this.searchTerm && this.searchTerm.length > 0) {
       params = params.set('search', this.searchTerm);
     }
@@ -120,7 +91,7 @@ export abstract class BaseQueryBuilder<T> {
   }
 
   /**
-   * Ejecuta la consulta y devuelve el Observable
+   * Executes the HTTP GET request with the built parameters
    */
   execute(): Observable<Page<T>> {
     const params = this.buildParams();
@@ -130,10 +101,4 @@ export abstract class BaseQueryBuilder<T> {
     return this.http.get<Page<T>>(this.endpoint, { params });
   }
 
-  /**
-   * Alias para execute() - más corto
-   */
-  get(): Observable<Page<T>> {
-    return this.execute();
-  }
 }
