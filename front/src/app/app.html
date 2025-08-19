@@ -1,37 +1,40 @@
-
-<div class="m-12">
+<div class="min-h-screen p-4 md:p-6 lg:p-12">
   <app-page-header>
-    <p-select
-      [options]="topics"
-      placeholder="Select a topic"
-      optionLabel="label"
-      optionValue="value"
-      [(ngModel)]="selectedTopic"
-      (onChange)="onTopicChange($event.value)"
-      class="w-full md:w-56 ml-auto"
-    />
+    <div class="w-full md:w-auto md:ml-auto mt-4 md:mt-0">
+      <p-select
+        [options]="topics"
+        placeholder="Select a topic"
+        optionLabel="label"
+        optionValue="value"
+        [(ngModel)]="selectedTopic"
+        (onChange)="onTopicChange($event.value)"
+        class="w-full md:w-56"
+      />
+    </div>
   </app-page-header>
 
-  <app-data-table
-    #dataTable
-    [config]="{ entityName: selectedTopic() }"
-    [columns]="currentColumns()"
-    [queryFn]="getQueryFn(selectedTopic())">
-    <ng-template #bodyTemplate let-row>
-      <tr>
-        @for (col of currentColumns(); track col.field) {
-          <td class="p-3">
-            @switch (col.pipe) {
-              @case ('date') {
-                {{ row[col.field] | date:'short' }}
+  <div class="mt-6">
+    <app-data-table
+      #dataTable
+      [config]="{ entityName: selectedTopic() }"
+      [columns]="currentColumns()"
+      [queryFn]="getQueryFn(selectedTopic())">
+      <ng-template #bodyTemplate let-row>
+        <tr>
+          @for (col of currentColumns(); track col.field) {
+            <td class="p-3">
+              @switch (col.pipe) {
+                @case ('date') {
+                  {{ row[col.field] | date:'short' }}
+                }
+                @default {
+                  {{ row[col.field] }}
+                }
               }
-              @default {
-                {{ row[col.field] }}
-              }
-            }
-          </td>
-        }
-      </tr>
-    </ng-template>
-  </app-data-table>
+            </td>
+          }
+        </tr>
+      </ng-template>
+    </app-data-table>
+  </div>
 </div>
