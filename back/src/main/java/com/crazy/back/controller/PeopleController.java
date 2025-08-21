@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,8 +38,9 @@ public class PeopleController {
     @ApiResponse(responseCode = "200", description = "Person retrieved successfully")
     @GetMapping("/people/{id}")
     public ResponseEntity<PeopleDto> getPersonById(
-            @Parameter(description = "ID of the person to retrieve")
-            @PathVariable("id") String id){
+            @PathVariable("id")
+            @Pattern(regexp = "\\d+", message = "ID must be a positive number")
+            String id) {
         return ResponseEntity.ok(peopleService.getById(id));
     }
 }

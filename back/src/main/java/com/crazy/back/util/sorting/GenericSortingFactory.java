@@ -1,5 +1,6 @@
 package com.crazy.back.util.sorting;
 
+import com.crazy.back.exception.InvalidSortFieldException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
@@ -12,7 +13,6 @@ import java.util.function.BiFunction;
 @Component
 public class GenericSortingFactory {
 
-
     public <T> boolean isValidSortField(Class<T> entityClass, String fieldName) {
         try {
             Field field = entityClass.getDeclaredField(fieldName);
@@ -23,13 +23,21 @@ public class GenericSortingFactory {
     }
 
     public <T> Comparator<T> createComparator(Class<T> entityClass, Sort sort) {
+        // Handle unsorted case
+        if (sort.isUnsorted()) {
+            return null;
+        }
+
         Comparator<T> comparator = null;
 
         for (Sort.Order order : sort) {
             String fieldName = order.getProperty();
 
             if (!isValidSortField(entityClass, fieldName)) {
-                throw new IllegalArgumentException("Field '" + fieldName + "' is not sortable for " + entityClass.getSimpleName());
+                throw new InvalidSortFieldException(
+                        String.format("Field '%s' is not sortable for %s. Available sortable fields can be found in the API documentation.",
+                                fieldName, entityClass.getSimpleName())
+                );
             }
 
             Comparator<T> fieldComparator = createFieldComparator(entityClass, fieldName);
@@ -73,11 +81,11 @@ public class GenericSortingFactory {
                     return compareNullSafe(val1, val2, Comparable::compareTo);
                 };
 
-                case CUSTOM -> createCustomComparator(sortable.customComparator());
+                case CUSTOM -> createCustomComparator();
             };
 
         } catch (NoSuchFieldException e) {
-            throw new IllegalArgumentException("Field not found: " + fieldName, e);
+            throw new InvalidSortFieldException("Field not found: " + fieldName);
         }
     }
 
@@ -126,7 +134,7 @@ public class GenericSortingFactory {
         return comparator.apply(val1, val2);
     }
 
-    private <T> Comparator<T> createCustomComparator(String comparatorClass) {
+    private <T> Comparator<T> createCustomComparator() {
         throw new UnsupportedOperationException("Custom comparators not implemented yet");
     }
 }

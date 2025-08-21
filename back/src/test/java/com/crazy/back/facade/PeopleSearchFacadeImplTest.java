@@ -91,7 +91,7 @@ class PeopleSearchFacadeImplTest {
 
         // Then
         assertThat(result.getContent()).hasSize(1);
-        assertThat(result.getContent().get(0).getName()).isEqualTo("Luke Skywalker");
+        assertThat(result.getContent().getFirst().getName()).isEqualTo("Luke Skywalker");
         assertThat(result.getTotalElements()).isEqualTo(1);
     }
 
@@ -114,7 +114,7 @@ class PeopleSearchFacadeImplTest {
 
         // Then
         assertThat(result.getContent()).hasSize(1);
-        assertThat(result.getContent().get(0).getName()).isEqualTo("Luke Skywalker");
+        assertThat(result.getContent().getFirst().getName()).isEqualTo("Luke Skywalker");
     }
 
     @Test
@@ -139,6 +139,6 @@ class PeopleSearchFacadeImplTest {
         // When & Then
         assertThatThrownBy(() -> peopleSearchFacade.getById("999"))
                 .isInstanceOf(RuntimeException.class)
-                .hasMessageContaining("People not found with id: 999");
+                .hasMessageContaining("Person not found with id: 999");
     }
 }

@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
         configuration = SwFeignConfig.class)
 public interface PeopleFeignClient {
 
-     @GetMapping("/people/{id}")
-     SwPeopleResponse getPeopleById(@PathVariable("id") String id);
+    @GetMapping("/people/{id}")
+    SwPeopleResponse getPeopleById(@PathVariable("id") String id);
 
-     @GetMapping("/people/")
-     SwGenericPage<SwPeopleResponse> getPeopleSearch(
-             @RequestParam("page") int page,
-             @RequestParam(value = "search", required = false) String search
-     );
+    @GetMapping("/people/")
+    SwGenericPage<SwPeopleResponse> getPeopleSearch(
+            @RequestParam("page") int page,
+            @RequestParam(value = "search", required = false) String search
+    );
 }

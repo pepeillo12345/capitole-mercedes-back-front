@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -38,7 +39,9 @@ public class PlanetController {
     @GetMapping("/planets/{id}")
     public ResponseEntity<PlanetDto> getPersonById(
             @Parameter(description = "ID of the planet to retrieve")
-            @PathVariable("id") String id){
+            @PathVariable("id")
+            @Pattern(regexp = "\\d+", message = "ID must be a positive number")
+            String id) {
         return ResponseEntity.ok(planetService.getById(id));
     }
 }

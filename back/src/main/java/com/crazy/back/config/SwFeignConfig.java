@@ -1,7 +1,9 @@
 package com.crazy.back.config;
 
 import com.crazy.back.clients.swapi.feign.FeignLogger;
+import com.crazy.back.clients.swapi.feign.error.SwapiErrorDecoder;
 import feign.Logger;
+import feign.codec.ErrorDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,5 +22,10 @@ public class SwFeignConfig {
     @Bean
     Logger.Level feignLoggerLevel() {
         return Logger.Level.FULL;
+    }
+
+    @Bean
+    public ErrorDecoder errorDecoder() {
+        return new SwapiErrorDecoder();
     }
 }

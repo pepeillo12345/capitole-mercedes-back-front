@@ -1,7 +1,6 @@
 package com.crazy.back.clients.swapi.feign;
 
 import com.crazy.back.clients.swapi.response.SwGenericPage;
-import com.crazy.back.clients.swapi.response.people.SwPeopleResponse;
 import com.crazy.back.clients.swapi.response.planet.SwPlanetResponse;
 import com.crazy.back.config.SwFeignConfig;
 import org.springframework.cloud.openfeign.FeignClient;

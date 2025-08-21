@@ -2,6 +2,7 @@ package com.crazy.back.util.sorting;
 
 import com.crazy.back.dto.PeopleDto;
 import com.crazy.back.dto.PlanetDto;
+import com.crazy.back.exception.InvalidSortFieldException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.data.domain.Sort;
@@ -122,8 +123,9 @@ class GenericSortingFactoryTest {
 
         // When & Then
         assertThatThrownBy(() -> sortingFactory.createComparator(PeopleDto.class, sort))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Field 'height' is not sortable for PeopleDto");
+                .isInstanceOf(InvalidSortFieldException.class)
+                .hasMessageContaining("Field 'height' is not sortable for PeopleDto")
+                .hasMessageContaining("Available sortable fields can be found in the API documentation");
     }
 
     @Test
@@ -133,8 +135,37 @@ class GenericSortingFactoryTest {
 
         // When & Then
         assertThatThrownBy(() -> sortingFactory.createComparator(PeopleDto.class, sort))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessageContaining("Field 'nonexistent' is not sortable for PeopleDto");
+                .isInstanceOf(InvalidSortFieldException.class)
+                .hasMessageContaining("Field 'nonexistent' is not sortable for PeopleDto")
+                .hasMessageContaining("Available sortable fields can be found in the API documentation");
+    }
+
+    @Test
+    void shouldCreateMultiFieldComparator() {
+        // Given
+        Sort sort = Sort.by("name").and(Sort.by(Sort.Direction.DESC, "created"));
+        List<PeopleDto> people = createTestPeopleWithSameNames();
+
+        // When
+        Comparator<PeopleDto> comparator = sortingFactory.createComparator(PeopleDto.class, sort);
+        people.sort(comparator);
+
+        // Then
+        assertThat(people.get(0).getName()).isEqualTo("Luke Skywalker");
+        assertThat(people.get(0).getCreated()).isAfter(people.get(1).getCreated()); // newer first for same name
+        assertThat(people.get(1).getName()).isEqualTo("Luke Skywalker");
+    }
+
+    @Test
+    void shouldHandleEmptySort() {
+        // Given
+        Sort sort = Sort.unsorted();
+
+        // When
+        Comparator<PeopleDto> comparator = sortingFactory.createComparator(PeopleDto.class, sort);
+
+        // Then
+        assertThat(comparator).isNull(); // No sorting should be applied
     }
 
     private List<PeopleDto> createTestPeople() {
@@ -174,6 +205,23 @@ class GenericSortingFactoryTest {
         people.add(newPerson);
         people.add(oldPerson);
         people.add(middlePerson);
+
+        return people;
+    }
+
+    private List<PeopleDto> createTestPeopleWithSameNames() {
+        List<PeopleDto> people = new ArrayList<>();
+
+        PeopleDto luke1 = new PeopleDto();
+        luke1.setName("Luke Skywalker");
+        luke1.setCreated(OffsetDateTime.now().minusDays(1));
+
+        PeopleDto luke2 = new PeopleDto();
+        luke2.setName("Luke Skywalker");
+        luke2.setCreated(OffsetDateTime.now());
+
+        people.add(luke1);
+        people.add(luke2);
 
         return people;
     }

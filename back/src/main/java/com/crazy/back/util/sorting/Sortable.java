@@ -9,5 +9,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface Sortable {
     SortType type() default SortType.STRING;
+
     String customComparator() default "";
 }
